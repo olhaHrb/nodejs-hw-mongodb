@@ -16,6 +16,20 @@ export const setupServer = () => {
     }),
   );
 
+  app.use((req, res, next) => {
+    console.log('Middleware 1');
+    next();
+  });
+
+  app.use((req, res, next) => {
+    console.log('Middleware 2');
+    next();
+  });
+
+  app.get('/', (req, res) => {
+    res.send('Hello world!');
+  });
+
   app.use('*', (req, res, next) => {
     res.status(404).json({
       message: 'Not found',
@@ -29,6 +43,7 @@ export const setupServer = () => {
     });
     next();
   });
+
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
