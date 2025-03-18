@@ -9,8 +9,8 @@ const sessionsSchema = new Schema(
     refreshTokenValidUntil: { type: Date, required: true },
   },
   {
-    // timestamps: true,
-    // versionKey: false
+    timestamps: true,
+    versionKey: false,
   },
 );
 
