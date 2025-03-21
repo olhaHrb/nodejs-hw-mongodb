@@ -53,8 +53,14 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
-  const contact = await ContactsCollection.findOneAndDelete({ _id: contactId });
+export const deleteContact = async (contactId, user_Id) => {
+  const usersContact = await ContactsCollection.find()
+    .where('userId')
+    .equals(user_Id)
+    .where('_id')
+    .equals(contactId)
+    .exec();
+  const contact = await ContactsCollection.findOneAndDelete(usersContact);
   return contact;
 };
 
