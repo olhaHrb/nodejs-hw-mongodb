@@ -68,7 +68,10 @@ export const deleteContactController = async (req, res) => {
 
 export const upsertContactController = async (req, res) => {
   const { contactId } = req.params;
-  const result = await updateContact(contactId, req.body, { upsert: true });
+  const user_Id = req.user._id;
+  const result = await updateContact(user_Id, contactId, req.body, {
+    upsert: true,
+  });
   if (!result) {
     throw createHttpError(404, 'Contact not found');
   }
