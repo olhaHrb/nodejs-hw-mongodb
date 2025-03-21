@@ -42,7 +42,9 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const createContactController = async (req, res) => {
-  const contact = await createContact(req.body);
+  const newContact = { ...req.body, userId: req.user._id };
+
+  const contact = await createContact(newContact);
   res.status(201).json({
     status: 201,
     message: `Successfully created a contact!`,
