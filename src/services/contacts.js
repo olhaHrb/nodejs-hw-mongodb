@@ -38,12 +38,10 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, user_Id) => {
-  const contact = await ContactsCollection.find()
-    .where('userId')
-    .equals(user_Id)
-    .where('_id')
-    .equals(contactId)
-    .exec();
+  const contact = await ContactsCollection.find({
+    userId: user_Id,
+    _id: contactId,
+  });
 
   return contact;
 };
@@ -54,13 +52,10 @@ export const createContact = async (payload) => {
 };
 
 export const deleteContact = async (contactId, user_Id) => {
-  const usersContact = await ContactsCollection.find()
-    .where('userId')
-    .equals(user_Id)
-    .where('_id')
-    .equals(contactId)
-    .exec();
-  const contact = await ContactsCollection.findOneAndDelete(usersContact);
+  const contact = await ContactsCollection.findOneAndDelete({
+    userId: user_Id,
+    _id: contactId,
+  });
   return contact;
 };
 
@@ -70,24 +65,15 @@ export const updateContact = async (
   payload,
   options = {},
 ) => {
-  const usersContact = await ContactsCollection.find()
-    .where('userId')
-    .equals(user_Id)
-    .where('_id')
-    .equals(contactId)
-    .exec();
+  const rawResult = await ContactsCollection.findOneAndUpdate(
+    { userId: user_Id, _id: contactId },
+    payload,
+    { new: true, includeResultMetadata: true, ...options },
+  );
 
-  if (usersContact) {
-    const rawResult = await ContactsCollection.findOneAndUpdate(
-      { _id: contactId },
-      payload,
-      { new: true, includeResultMetadata: true, ...options },
-    );
-
-    if (!rawResult || !rawResult.value) return null;
-    return {
-      contact: rawResult.value,
-      isNew: Boolean(rawResult?.lastErrorObject?.upserted),
-    };
-  }
+  if (!rawResult || !rawResult.value) return null;
+  return {
+    contact: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
 };
