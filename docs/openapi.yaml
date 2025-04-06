@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: <назва вашого додатку>
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: <опис вашого додатку>
+tags:
+  - name: Contacts
+    description: Operations about contacts.
+servers:
+  - url: http://localhost:3000
+  #посилання на задеплоєний сайт
+  - url: https://example.com/api/v1
+paths:
+  # тут будуть посилання на ендпоінти
+  /students/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
