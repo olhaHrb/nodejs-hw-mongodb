@@ -12,7 +12,7 @@ tags:
 servers:
   - url: http://localhost:3000
   #посилання на задеплоєний сайт
-  - url: https://example.com/api/v1
+  - url: https://contacts-app-9p8p.onrender.com
 paths:
   # тут будуть посилання на ендпоінти
   /contacts/{id}:
